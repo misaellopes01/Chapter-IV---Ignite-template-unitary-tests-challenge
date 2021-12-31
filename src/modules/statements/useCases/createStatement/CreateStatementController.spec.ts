@@ -1,0 +1,49 @@
+import { app } from "../../../../app";
+import request from "supertest";
+import createConnection from "../../../../database"
+import { Connection } from "typeorm";
+
+
+let connection: Connection;
+
+describe("Create Statement Controller", () => {
+  beforeAll(async () => {
+    connection = await createConnection();
+    await connection.runMigrations();
+  });
+
+  afterAll(async () => {
+    await connection.dropDatabase();
+    await connection.close();
+  });
+
+  it("should be able to create a new deposit", async () => {
+    await request(app).post("/api/v1/users").send({
+      name: "Misael Lopes",
+      email: "test@rentx.com",
+      password: "admin",
+    });
+
+    const authResponse = await request(app).post("/api/v1/sessions").send({
+      email: "test@rentx.com",
+      password: "admin",
+    })
+
+    const { token } = authResponse.body
+
+    const response = await request(app)
+    .post("/api/v1/statements/deposit")
+    .send({
+      amount: 2000,
+      description: "Deposit Amount SuperTest",
+    })
+    .set({
+      Authorization: `Baerer ${token}`,
+    });
+
+    
+    expect(response.status).toEqual(201)
+    expect(response.body.type).toEqual("deposit");
+  });
+
+});
