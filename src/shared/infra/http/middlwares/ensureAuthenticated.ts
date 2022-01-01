@@ -23,7 +23,7 @@ export async function ensureAuthenticated(
   const [, token] = authHeader.split(" ");
 
   try {
-    const { sub: user_id } = verify(token, "35a152e2965ff3b343897683f3a46718") as IPayload;
+    const { sub: user_id } = verify(token, "senhasupersecreta123") as IPayload;
 
     request.user = {
       id: user_id,

@@ -29,8 +29,6 @@ describe("Create Statement Controller", () => {
       password: "admin",
     })
 
-    const { token } = authResponse.body
-
     const response = await request(app)
     .post("/api/v1/statements/deposit")
     .send({
@@ -38,7 +36,7 @@ describe("Create Statement Controller", () => {
       description: "Deposit Amount SuperTest",
     })
     .set({
-      Authorization: `Baerer ${token}`,
+      authorization: `Baerer ${authResponse.body.token}`,
     });
 
     
