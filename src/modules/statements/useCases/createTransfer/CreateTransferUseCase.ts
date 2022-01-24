@@ -1,12 +1,14 @@
 import { inject, injectable } from "tsyringe";
-import { IUsersRepository } from "@modules/users/repositories/IUsersRepository";
-import { OperationType } from "@modules/statements/entities/Statement"
-import { IStatementsRepository } from "@modules/statements/repositories/IStatementsRepository";
+import { IUsersRepository } from "../../../../modules/users/repositories/IUsersRepository";
+import { IStatementsRepository } from "../../../../modules/statements/repositories/IStatementsRepository";
 import { ICreateTransferDTO } from "./ICreateTransferDTO";
 import { CreateTransferError } from "./CreateTransferError";
 
-
-
+enum OperationType {
+  DEPOSIT = 'deposit',
+  WITHDRAW = 'withdraw',
+  TRANSFER = 'transfer'
+}
 @injectable()
 class CreateTransferUseCase {
    
@@ -38,14 +40,14 @@ class CreateTransferUseCase {
 
     await this.statementsRepository.create({
         user_id: sender_id,
+        sender_id: sender_id,
         amount,
         description,
         type: OperationType.WITHDRAW
     })
-
     const transferOperation = await this.statementsRepository.create({
-        user_id: receiver_id,
-        sender_id,
+        user_id: receiverUser.id,
+        sender_id: userSender.id,
         amount,
         description,
         type: OperationType.TRANSFER

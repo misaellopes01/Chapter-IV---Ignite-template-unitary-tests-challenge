@@ -28,9 +28,9 @@ export class CreateStatementUseCase {
         throw new CreateStatementError.InsufficientFunds()
       }
     }
-
     const statementOperation = await this.statementsRepository.create({
       user_id,
+      sender_id: user.id,
       type,
       amount,
       description

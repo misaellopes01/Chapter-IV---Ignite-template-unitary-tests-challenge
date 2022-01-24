@@ -8,9 +8,10 @@ import { GetBalanceUseCase } from "./GetBalanceUseCase";
 
 
 enum OperationType {
-    DEPOSIT = "deposit",
-    WITHDRAW = "withdraw",
-}
+    DEPOSIT = 'deposit',
+    WITHDRAW = 'withdraw',
+    TRANSFER = 'transfer'
+  }
 
 let createUserUseCase: CreateUserUseCase
 let authenticateUserUseCase: AuthenticateUserUseCase

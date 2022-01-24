@@ -10,7 +10,7 @@ import { v4 as uuid } from 'uuid';
 
 import { User } from '../../users/entities/User';
 
-export enum OperationType {
+enum OperationType {
   DEPOSIT = 'deposit',
   WITHDRAW = 'withdraw',
   TRANSFER = 'transfer'
